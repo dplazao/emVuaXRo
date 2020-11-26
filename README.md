@@ -1,4 +1,4 @@
-# comp 353 project
+# proj
 
 ## Installing
 
