@@ -11,10 +11,14 @@ class User extends Authenticatable
 
     protected $table = 'MEMBER';
     protected $primaryKey = 'id';
+    public $timestamps = false;
 
     protected $attributes = [
         'privilege' => 'owner',
         'status' => 'active',
+        'address' => 'N/A',
+        'internalEmailAddress' => 'unknown@condo',
+        'mustChangePassword' => false,
     ];
 
     /**
