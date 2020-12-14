@@ -33,9 +33,20 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <!-- Left Side Of Navbar -->
                 <ul class="navbar-nav mr-auto">
+                    @if (\Illuminate\Support\Facades\Gate::allows('sysadmin'))
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('association.list') }}">{{ 'Associations' }}</a>
+                        </li>
+                    @else
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('association.view', [ 'associationID' => '@me' ]) }}">{{ 'Your Association' }}</a>
+                        </li>
+                    @endif
+
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('users.view') }}">{{ 'Users' }}</a>
                     </li>
+
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('group.list') }}">{{ 'Groups' }}</a>
                     </li>
@@ -77,9 +88,9 @@
         </div>
     </nav>
 
-    <main class="py-4">
-        @yield('content')
-    </main>
-</div>
+        <main class="py-4">
+            @yield('content')
+        </main>
+    </div>
 </body>
 </html>

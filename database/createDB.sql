@@ -27,6 +27,13 @@ CREATE TABLE MEMBER (
     FOREIGN KEY (associationID) REFERENCES ASSOCIATION(id) ON DELETE CASCADE
 );
 
+CREATE TABLE ASSOCIATIONOWNER (
+    associationID INT NOT NULL,
+    memberID INT NOT NULL,
+    FOREIGN KEY (associationID) REFERENCES ASSOCIATION(id) ON DELETE CASCADE,
+    FOREIGN KEY (memberID) REFERENCES MEMBER(id) ON DELETE CASCADE
+);
+
 CREATE TABLE MEMBERRELATIONSHIP (
     memberID INT NOT NULL,
     type VARCHAR(32) NOT NULL,
@@ -105,6 +112,9 @@ INSERT INTO MEMBER (id, associationID, email, name, address, privilege, status, 
 INSERT INTO MEMBER (id, associationID, email, name, address, privilege, status, internalEmailAddress, password) VALUES (19, 2, 'sduckeri@live.com', 'Sally', '3 Pierstorff Park', 'owner', 'active', 'Sally@2.condo', '$2y$10$s3lOybxwLra9dozw4nimZumQvd9NPYfUko3J8OhLV1QWsUfCLWEo6');
 INSERT INTO MEMBER (id, associationID, email, name, address, privilege, status, internalEmailAddress, password) VALUES (20, 2, 'jtilnej@google.it', 'Joline', '4368 Eggendart Terrace', 'owner', 'active', 'Joline@2.condo', '$2y$10$s3lOybxwLra9dozw4nimZumQvd9NPYfUko3J8OhLV1QWsUfCLWEo6');
 
+INSERT INTO ASSOCIATIONOWNER (associationID, memberID) VALUES (1, 1);
+INSERT INTO ASSOCIATIONOWNER (associationID, memberID) VALUES (2, 2);
+
 INSERT INTO MGROUP (id, name, owner, information) VALUES (1, 'First group', 3, 'the cool group');
 INSERT INTO GROUPMEMBER (memberID, groupID, accepted) VALUES (3, 1, TRUE);
 INSERT INTO GROUPMEMBER (memberID, groupID, accepted) VALUES (4, 1, TRUE);
@@ -123,3 +133,16 @@ INSERT INTO GROUPMEMBER (memberID, groupID, accepted) VALUES (9, 2, TRUE);
 
 INSERT INTO MGROUP (id, name, owner, information) VALUES (3, 'Lonely Group', 18, 'the cooler group');
 INSERT INTO GROUPMEMBER (memberID, groupID, accepted) VALUES (18, 3, TRUE);
+
+
+
+
+
+
+
+
+
+
+
+
+
