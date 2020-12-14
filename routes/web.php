@@ -19,8 +19,10 @@ Route::get('/group/transferOwnership/{groupID}/{memberID}', 'GroupController@tra
 Route::post('/group/transferOwnership/{groupID}/{memberID}', 'GroupController@transferOwnershipAction')->name('group.transferOwnershipAction')->middleware('auth');
 Route::get('/group/acceptMember/{groupID}/{memberID}', 'GroupController@acceptMember')->name('group.acceptMember')->middleware('auth');
 Route::get('/group/removeMember/{groupID}/{memberID}', 'GroupController@removeMember')->name('group.removeMember')->middleware('auth');
+
+/** User routes @author Annes Cherid */
 Route::get('/users', function () {
-return view('users.view');
+    return view('users.view');
 })->name('users.view')->middleware('auth');
 Route::get('/users/list', 'UserController@listAllUsers')->name('users.list')->middleware('auth');
 Route::get('/users/createUser', 'UserController@createUser')->name('users.createUser')->middleware('auth');
