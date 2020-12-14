@@ -1,7 +1,7 @@
 <?php
-
+//@author Annes Cherid 40038453
 namespace App\Http\Controllers;
-
+//@author Annes Cherid 40038453
 use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -15,7 +15,7 @@ class UserController extends Controller {
         $this->middleware('auth');
     }
 
-//@author Annes Cherid
+
     public function listAllUsers(int $userID = null) {
         $users = $this->getAllUsers();
         return view('users.list', ['users' => $users]);
