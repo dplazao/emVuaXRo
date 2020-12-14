@@ -20,7 +20,7 @@ Route::post('/group/transferOwnership/{groupID}/{memberID}', 'GroupController@tr
 Route::get('/group/acceptMember/{groupID}/{memberID}', 'GroupController@acceptMember')->name('group.acceptMember')->middleware('auth');
 Route::get('/group/removeMember/{groupID}/{memberID}', 'GroupController@removeMember')->name('group.removeMember')->middleware('auth');
 
-/** User routes @author Annes Cherid */
+/** User routes @author Annes Cherid 40038453*/
 Route::get('/users', function () {
     return view('users.view');
 })->name('users.view')->middleware('auth');
