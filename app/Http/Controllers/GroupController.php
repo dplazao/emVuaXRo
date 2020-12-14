@@ -118,7 +118,7 @@ class GroupController extends Controller
             ->with('success', $success);
     }
 
-    private function redirectToViewWithMessage(int $groupID, string $message, bool $success = null): RedirectResponse {
+    private function redirectToViewWithMessage($groupID, string $message, bool $success = null): RedirectResponse {
         return redirect()
             ->action([GroupController::class, 'view'], ['groupID' => $groupID])
             ->with('message', $message)
