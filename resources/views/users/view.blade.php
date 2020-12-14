@@ -1,4 +1,4 @@
-{{-- @author Annes Cherid --}}
+{{-- @author Annes Cherid 40038453 --}}
 @extends('layouts.app')
 @section('content')
     <div class="container">
@@ -38,11 +38,6 @@
                                            placeholder="Enter email">
                                     <small id="userNameHelp" class="form-text text-muted">You can change your user name
                                         later.</small>
-                                </div>
-                                <div class="form-group">
-                                    <label for="userInformation">User Information</label>
-                                    <textarea type="text" class="form-control" name="userInformation"
-                                              id="userInformation" placeholder="A description of what your group is"></textarea>
                                 </div>
                                 <a href="{{ route('users.createUser')}}">
                                     <button type="submit" class="btn btn-success">Create</button>
