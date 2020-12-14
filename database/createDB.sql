@@ -54,11 +54,16 @@ CREATE TABLE GROUPMEMBER (
 
 CREATE TABLE POST (
     id INT PRIMARY KEY AUTO_INCREMENT,
+    postName VARCHAR(255) NOT NULL,
+    memberID INT,
+    postText TEXT,
+    postPicture VARCHAR(255),
     associationID INT,
     # viewOnly, viewAndComment, viewAndAddLink
     classification VARCHAR(32) NOT NULL,
-    # systemWide, condoOwners, public, private, group, public
-    privacy VARCHAR(32) NOT NULL
+    # systemWide, condoOwners, public, private, group
+    privacy VARCHAR(32) NOT NULL,
+    FOREIGN KEY (memberID) REFERENCES MEMBER(id) ON DELETE CASCADE
 );
 
 CREATE TABLE POSTCOMMENT (
@@ -123,3 +128,8 @@ INSERT INTO GROUPMEMBER (memberID, groupID, accepted) VALUES (9, 2, TRUE);
 
 INSERT INTO MGROUP (id, name, owner, information) VALUES (3, 'Lonely Group', 18, 'the cooler group');
 INSERT INTO GROUPMEMBER (memberID, groupID, accepted) VALUES (18, 3, TRUE);
+
+INSERT INTO POST (id, postName, memberID, postText, associationID, classification, privacy) VALUES (1, 'Breathtaking Condo', 3, 'The condo is located along a mountain cliff', 2, 'viewAndComment', 'systemWide');
+INSERT INTO POST (id, postName, memberID, postText, associationID, classification, privacy) VALUES (2, 'Moderate Condo', 4, 'A normal condo that fits every needs', 2, 'viewOnly', 'systemWide');
+INSERT INTO POST (id, postName, memberID, postText, associationID, classification, privacy) VALUES (3, 'Downtown Condo', 3, 'Located in the heart of the city', 2, 'viewAndComment', 'systemWide');
+INSERT INTO POST (id, postName, memberID, postText, associationID, classification, privacy) VALUES (4, 'Border Downtown Condo', 2, "It's located near downtown", 2, 'viewAndComment', 'public')

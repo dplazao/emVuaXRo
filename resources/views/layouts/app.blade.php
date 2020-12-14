@@ -36,6 +36,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('group.list') }}">{{ 'Groups' }}</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('post.list') }}">{{ 'Posts' }}</a>
+                        </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
