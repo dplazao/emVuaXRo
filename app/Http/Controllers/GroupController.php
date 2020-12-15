@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 /**
  * Handles create/edit/view/join groups
  * @package App\Http\Controllers
- * @author dplazao
+ * @author dplazao 40132793
  */
 class GroupController extends Controller
 {

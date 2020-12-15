@@ -27,7 +27,7 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        /** Gates @author dplazao */
+        /** Gates @author dplazao 40132793 */
         Gate::define('sysadmin', function ($user) { return $user->privilege === 'sysadmin'; });
 
         Gate::define('modify-association', 'App\Http\Controllers\AssociationController@canModifyAssociation');

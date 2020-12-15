@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Hash;
 /**
  * Handles create/edit/view associations
  * @package App\Http\Controllers
- * @author dplazao
+ * @author dplazao 40132793
  */
 class BuildingController extends Controller
 {

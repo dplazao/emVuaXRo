@@ -23,7 +23,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 /**
  * Group routes
- * @author dplazao
+ * @author dplazao 40132793
  */
 Route::prefix('group')->group(function () {
     Route::get('list', 'GroupController@list')->name('group.list');
@@ -61,7 +61,7 @@ Route::post('/users/editUser', 'UserController@editUser')->name('users.editUser'
 
 /**
  * Association routes
- * @author dplazao
+ * @author dplazao 40132793
  */
 Route::group(['prefix' => 'association', 'as' => 'association.'], function () {
     Route::get('list', 'AssociationController@list')->name('list')->middleware('auth')->middleware('can:sysadmin');
@@ -79,7 +79,7 @@ Route::group(['prefix' => 'association', 'as' => 'association.'], function () {
 
 /**
  * Building routes
- * @author dplazao
+ * @author dplazao 40132793
  */
 Route::group(['prefix' => 'building', 'as' => 'building.'], function () {
     Route::get('list', 'BuildingController@list')->name('list')->middleware('auth');

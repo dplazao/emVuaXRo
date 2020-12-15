@@ -1,14 +1,14 @@
-drop table if exists CONDO cascade;
-drop table if exists BUILDING cascade;
-drop table if exists GROUPMEMBER cascade;
-drop table if exists MEMBERRELATIONSHIP cascade;
-drop table if exists POSTCOMMENT cascade;
-drop table if exists POSTPRIVACY cascade;
-drop table if exists MGROUP cascade;
-drop table if exists ASSOCIATIONOWNER cascade;
-drop table if exists MEMBER cascade;
-drop table if exists ASSOCIATION cascade;
-drop table if exists POST cascade;
+DROP TABLE IF EXISTS CONDO CASCADE;
+DROP TABLE IF EXISTS BUILDING CASCADE;
+DROP TABLE IF EXISTS GROUPMEMBER CASCADE;
+DROP TABLE IF EXISTS MEMBERRELATIONSHIP CASCADE;
+DROP TABLE IF EXISTS POSTCOMMENT CASCADE;
+DROP TABLE IF EXISTS POSTPRIVACY CASCADE;
+DROP TABLE IF EXISTS MGROUP CASCADE;
+DROP TABLE IF EXISTS ASSOCIATIONOWNER CASCADE;
+DROP TABLE IF EXISTS MEMBER CASCADE;
+DROP TABLE IF EXISTS ASSOCIATION CASCADE;
+DROP TABLE IF EXISTS POST CASCADE;
 
 CREATE TABLE ASSOCIATION (
     id INT PRIMARY KEY AUTO_INCREMENT,
@@ -179,21 +179,3 @@ INSERT INTO GROUPMEMBER (memberID, groupID, accepted) VALUES (9, 2, TRUE);
 
 INSERT INTO MGROUP (id, name, owner, information) VALUES (3, 'Lonely Group', 18, 'the cooler group');
 INSERT INTO GROUPMEMBER (memberID, groupID, accepted) VALUES (18, 3, TRUE);
-
-
-SELECT B.id, name, associationID, spaceFee, coalesce(counts.condoCount, 0) as condoCount FROM BUILDING B
-    LEFT JOIN (
-        SELECT B2.id as count_id, COUNT(*) as condoCount FROM BUILDING B2
-        JOIN CONDO C on B2.id = C.buildingID
-        GROUP BY B2.id
-    ) as counts
-    ON B.id = count_id
-    WHERE associationID = (
-        SELECT A.id FROM ASSOCIATION A
-            JOIN MEMBER M on A.id = M.associationID
-            WHERE M.id = ?
-    );
-
-
-
-
