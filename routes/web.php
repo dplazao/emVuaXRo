@@ -99,3 +99,16 @@ Route::group(['prefix' => 'building', 'as' => 'building.'], function () {
     Route::get('editCondo/{buildingID}/{condoID}', 'BuildingController@editCondoView')->name('editCondoView')->middleware('auth')->middleware('can:transfer-condo,buildingID,condoID');
     Route::post('editCondo/{buildingID}/{condoID}', 'BuildingController@editCondoAction')->name('editCondoAction')->middleware('auth')->middleware('can:transfer-condo,buildingID,condoID');
 });
+
+/**
+ * Relationship routes
+ * @author dplazao 40132793
+ */
+Route::group(['prefix' => 'relationship', 'as' => 'relationship.'], function () {
+    Route::get('list', 'RelationshipController@list')->name('list')->middleware('auth');
+
+    Route::view('create', 'relationship.create')->name('create')->middleware('auth');
+    Route::post('createAction', 'RelationshipController@createAction')->name('createAction')->middleware('auth');
+
+    Route::post('delete/{memberID}/{withMemberID}', 'RelationshipController@delete')->name('delete')->middleware('auth');
+});
