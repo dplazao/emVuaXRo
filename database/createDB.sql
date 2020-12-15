@@ -1,8 +1,11 @@
+DROP TABLE IF EXISTS CONDO CASCADE;
+DROP TABLE IF EXISTS BUILDING CASCADE;
 DROP TABLE IF EXISTS GROUPMEMBER CASCADE;
 DROP TABLE IF EXISTS MEMBERRELATIONSHIP CASCADE;
 DROP TABLE IF EXISTS POSTCOMMENT CASCADE;
 DROP TABLE IF EXISTS POSTPRIVACY CASCADE;
 DROP TABLE IF EXISTS MGROUP CASCADE;
+DROP TABLE IF EXISTS ASSOCIATIONOWNER CASCADE;
 DROP TABLE IF EXISTS MEMBER CASCADE;
 DROP TABLE IF EXISTS ASSOCIATION CASCADE;
 DROP TABLE IF EXISTS POST CASCADE;
@@ -25,6 +28,31 @@ CREATE TABLE MEMBER (
     internalEmailAddress VARCHAR(255) NOT NULL,
     associationID INT,
     FOREIGN KEY (associationID) REFERENCES ASSOCIATION(id) ON DELETE CASCADE
+);
+
+CREATE TABLE ASSOCIATIONOWNER (
+    associationID INT NOT NULL,
+    memberID INT NOT NULL,
+    FOREIGN KEY (associationID) REFERENCES ASSOCIATION(id) ON DELETE CASCADE,
+    FOREIGN KEY (memberID) REFERENCES MEMBER(id) ON DELETE CASCADE
+);
+
+CREATE TABLE BUILDING (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    associationID INT NOT NULL,
+    spaceFee FLOAT NOT NULL DEFAULT 1,
+    FOREIGN KEY (associationID) REFERENCES ASSOCIATION(id) ON DELETE CASCADE
+);
+
+CREATE TABLE CONDO (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    buildingID INT NOT NULL,
+    ownerID INT,
+    parkingSpaces INT NOT NULL DEFAULT 0,
+    storageSpace INT NOT NULL DEFAULT 0,
+    FOREIGN KEY (buildingID) REFERENCES BUILDING(id) ON DELETE CASCADE,
+    FOREIGN KEY (ownerID) REFERENCES MEMBER(id) ON DELETE SET NULL
 );
 
 CREATE TABLE MEMBERRELATIONSHIP (
@@ -89,7 +117,7 @@ CREATE TABLE POSTPRIVACY (
 INSERT INTO ASSOCIATION (id, name) VALUES (1, 'SYSTEM');
 INSERT INTO ASSOCIATION (id, name) VALUES (2, 'First association');
 
-INSERT INTO MEMBER (id, associationID, email, name, address, privilege, status, internalEmailAddress, password) VALUES (1, 1, 'admin@concordia.ca', 'Admin User', '75685 Macpherson Parkway', 'sysadmin', 'active', 'admin@db.condo', '$2y$10$s3lOybxwLra9dozw4nimZumQvd9NPYfUko3J8OhLV1QWsUfCLWEo6');
+INSERT INTO MEMBER (id, associationID, email, name, address, privilege, status, internalEmailAddress, password) VALUES (1, 1, 'admin', 'Admin User', '75685 Macpherson Parkway', 'sysadmin', 'active', 'admin@db.condo', '$2y$10$gjyY35KYVbtO9vwn33VQjuWNOfgm2r.uiLXFOcuhLk/l.MRjdgtH.');
 INSERT INTO MEMBER (id, associationID, email, name, address, privilege, status, internalEmailAddress, password) VALUES (2, 2, 'admin@condo2.com', 'Cchaddie', '8 Russell Street', 'admin', 'active', 'admin@2.condo', '$2y$10$s3lOybxwLra9dozw4nimZumQvd9NPYfUko3J8OhLV1QWsUfCLWEo6');
 INSERT INTO MEMBER (id, associationID, email, name, address, privilege, status, internalEmailAddress, password) VALUES (3, 2, 'diego@plazao.ca', 'Diego', '442 Forest Drive', 'owner', 'active', 'Diego@2.condo', '$2y$10$s3lOybxwLra9dozw4nimZumQvd9NPYfUko3J8OhLV1QWsUfCLWEo6');
 INSERT INTO MEMBER (id, associationID, email, name, address, privilege, status, internalEmailAddress, password) VALUES (4, 2, 'diego2@plazao.ca', 'Diego2', '3464 Veith Road', 'owner', 'active', 'Diego2@2.condo', '$2y$10$s3lOybxwLra9dozw4nimZumQvd9NPYfUko3J8OhLV1QWsUfCLWEo6');
@@ -97,7 +125,7 @@ INSERT INTO MEMBER (id, associationID, email, name, address, privilege, status, 
 INSERT INTO MEMBER (id, associationID, email, name, address, privilege, status, internalEmailAddress, password) VALUES (6, 2, 'ltustin5@hud.gov', 'Lenee', '640 Lakeland Hill', 'owner', 'active', 'Lenee@2.condo', '$2y$10$s3lOybxwLra9dozw4nimZumQvd9NPYfUko3J8OhLV1QWsUfCLWEo6');
 INSERT INTO MEMBER (id, associationID, email, name, address, privilege, status, internalEmailAddress, password) VALUES (7, 2, 'kcratchley6@list-manage.com', 'Kimberlyn', '38184 Hermina Avenue', 'owner', 'active', 'Kimberlyn@2.condo', '$2y$10$s3lOybxwLra9dozw4nimZumQvd9NPYfUko3J8OhLV1QWsUfCLWEo6');
 INSERT INTO MEMBER (id, associationID, email, name, address, privilege, status, internalEmailAddress, password) VALUES (8, 2, 'bboles7@va.gov', 'Barbette', '70965 Sugar Court', 'owner', 'active', 'Barbette@2.condo', '$2y$10$s3lOybxwLra9dozw4nimZumQvd9NPYfUko3J8OhLV1QWsUfCLWEo6');
-INSERT INTO MEMBER (id, associationID, email, name, address, privilege, status, internalEmailAddress, password) VALUES (9, 2, 'gforcer8@behance.net', 'Glynnis', '5834 Fieldstone Avenue', 'owner', 'active', 'Glynnis@2.condo', '$2y$10$s3lOybxwLra9dozw4nimZumQvd9NPYfUko3J8OhLV1QWsUfCLWEo6');
+INSERT INTO MEMBER (id, associationID, email, name, address, privilege, status, internalEmailAddress, password) VALUES (9, 2, 'gforcer8@behance.net', 'Glynnis', '5834 Fieldstone Avenue', 'admin', 'active', 'Glynnis@2.condo', '$2y$10$s3lOybxwLra9dozw4nimZumQvd9NPYfUko3J8OhLV1QWsUfCLWEo6');
 INSERT INTO MEMBER (id, associationID, email, name, address, privilege, status, internalEmailAddress, password) VALUES (10, 2, 'bbuick9@whitehouse.gov', 'Belva', '891 Del Sol Way', 'owner', 'active', 'Belva@2.condo', '$2y$10$s3lOybxwLra9dozw4nimZumQvd9NPYfUko3J8OhLV1QWsUfCLWEo6');
 INSERT INTO MEMBER (id, associationID, email, name, address, privilege, status, internalEmailAddress, password) VALUES (11, 2, 'wmarcoa@gov.uk', 'Wyndham', '7 Esch Hill', 'owner', 'active', 'Wyndham@2.condo', '$2y$10$s3lOybxwLra9dozw4nimZumQvd9NPYfUko3J8OhLV1QWsUfCLWEo6');
 INSERT INTO MEMBER (id, associationID, email, name, address, privilege, status, internalEmailAddress, password) VALUES (12, 2, 'elepiscopiob@nature.com', 'Ely', '98 Ridgeview Way', 'owner', 'active', 'Ely@2.condo', '$2y$10$s3lOybxwLra9dozw4nimZumQvd9NPYfUko3J8OhLV1QWsUfCLWEo6');
@@ -109,6 +137,47 @@ INSERT INTO MEMBER (id, associationID, email, name, address, privilege, status, 
 INSERT INTO MEMBER (id, associationID, email, name, address, privilege, status, internalEmailAddress, password) VALUES (18, 2, 'tgligorijevich@networksolutions.com', 'Teddy', '0 Susan Park', 'owner', 'active', 'Teddy@2.condo', '$2y$10$s3lOybxwLra9dozw4nimZumQvd9NPYfUko3J8OhLV1QWsUfCLWEo6');
 INSERT INTO MEMBER (id, associationID, email, name, address, privilege, status, internalEmailAddress, password) VALUES (19, 2, 'sduckeri@live.com', 'Sally', '3 Pierstorff Park', 'owner', 'active', 'Sally@2.condo', '$2y$10$s3lOybxwLra9dozw4nimZumQvd9NPYfUko3J8OhLV1QWsUfCLWEo6');
 INSERT INTO MEMBER (id, associationID, email, name, address, privilege, status, internalEmailAddress, password) VALUES (20, 2, 'jtilnej@google.it', 'Joline', '4368 Eggendart Terrace', 'owner', 'active', 'Joline@2.condo', '$2y$10$s3lOybxwLra9dozw4nimZumQvd9NPYfUko3J8OhLV1QWsUfCLWEo6');
+
+INSERT INTO MEMBERRELATIONSHIP (memberID, type, withMemberID) VALUES (2, 'friend', 3);
+INSERT INTO MEMBERRELATIONSHIP (memberID, type, withMemberID) VALUES (2, 'friend', 4);
+INSERT INTO MEMBERRELATIONSHIP (memberID, type, withMemberID) VALUES (2, 'friend', 5);
+INSERT INTO MEMBERRELATIONSHIP (memberID, type, withMemberID) VALUES (2, 'friend', 6);
+INSERT INTO MEMBERRELATIONSHIP (memberID, type, withMemberID) VALUES (3, 'friend', 6);
+INSERT INTO MEMBERRELATIONSHIP (memberID, type, withMemberID) VALUES (3, 'family', 7);
+INSERT INTO MEMBERRELATIONSHIP (memberID, type, withMemberID) VALUES (3, 'family', 8);
+INSERT INTO MEMBERRELATIONSHIP (memberID, type, withMemberID) VALUES (3, 'colleague', 9);
+INSERT INTO MEMBERRELATIONSHIP (memberID, type, withMemberID) VALUES (3, 'friend', 10);
+INSERT INTO MEMBERRELATIONSHIP (memberID, type, withMemberID) VALUES (4, 'friend', 11);
+INSERT INTO MEMBERRELATIONSHIP (memberID, type, withMemberID) VALUES (4, 'family', 12);
+INSERT INTO MEMBERRELATIONSHIP (memberID, type, withMemberID) VALUES (4, 'friend', 13);
+
+INSERT INTO ASSOCIATIONOWNER (associationID, memberID) VALUES (1, 1);
+INSERT INTO ASSOCIATIONOWNER (associationID, memberID) VALUES (2, 2);
+INSERT INTO ASSOCIATIONOWNER (associationID, memberID) VALUES (2, 9);
+
+INSERT INTO BUILDING (id, name, associationID, spaceFee) VALUES (1, 'Red Building', 2, 10);
+
+INSERT INTO CONDO (buildingID, ownerID, parkingSpaces, storageSpace) VALUES (1, 2, 1, 10);
+INSERT INTO CONDO (buildingID, ownerID, parkingSpaces, storageSpace) VALUES (1, 3, 1, 10);
+INSERT INTO CONDO (buildingID, ownerID, parkingSpaces, storageSpace) VALUES (1, 4, 2, 20);
+INSERT INTO CONDO (buildingID, ownerID, parkingSpaces, storageSpace) VALUES (1, 5, 1, 10);
+INSERT INTO CONDO (buildingID, ownerID, parkingSpaces, storageSpace) VALUES (1, 6, 3, 50);
+INSERT INTO CONDO (buildingID, ownerID, parkingSpaces, storageSpace) VALUES (1, 7, 1, 10);
+INSERT INTO CONDO (buildingID, ownerID, parkingSpaces, storageSpace) VALUES (1, 8, 1, 30);
+INSERT INTO CONDO (buildingID, ownerID, parkingSpaces, storageSpace) VALUES (1, 9, 2, 10);
+INSERT INTO CONDO (buildingID, ownerID, parkingSpaces, storageSpace) VALUES (1, 10, 1, 5);
+
+INSERT INTO BUILDING (id, name, associationID, spaceFee) VALUES (2, 'Blue Building', 2, 15);
+
+INSERT INTO CONDO (buildingID, ownerID, parkingSpaces, storageSpace) VALUES (2, 11, 2, 5);
+INSERT INTO CONDO (buildingID, ownerID, parkingSpaces, storageSpace) VALUES (2, 12, 1, 10);
+INSERT INTO CONDO (buildingID, ownerID, parkingSpaces, storageSpace) VALUES (2, 13, 3, 15);
+INSERT INTO CONDO (buildingID, ownerID, parkingSpaces, storageSpace) VALUES (2, 14, 1, 10);
+INSERT INTO CONDO (buildingID, ownerID, parkingSpaces, storageSpace) VALUES (2, 15, 1, 5);
+INSERT INTO CONDO (buildingID, ownerID, parkingSpaces, storageSpace) VALUES (2, 16, 3, 10);
+INSERT INTO CONDO (buildingID, ownerID, parkingSpaces, storageSpace) VALUES (2, 17, 1, 30);
+INSERT INTO CONDO (buildingID, ownerID, parkingSpaces, storageSpace) VALUES (2, 18, 2, 10);
+INSERT INTO CONDO (buildingID, ownerID, parkingSpaces, storageSpace) VALUES (2, 19, 1, 15);
 
 INSERT INTO MGROUP (id, name, owner, information) VALUES (1, 'First group', 3, 'the cool group');
 INSERT INTO GROUPMEMBER (memberID, groupID, accepted) VALUES (3, 1, TRUE);
@@ -128,6 +197,7 @@ INSERT INTO GROUPMEMBER (memberID, groupID, accepted) VALUES (9, 2, TRUE);
 
 INSERT INTO MGROUP (id, name, owner, information) VALUES (3, 'Lonely Group', 18, 'the cooler group');
 INSERT INTO GROUPMEMBER (memberID, groupID, accepted) VALUES (18, 3, TRUE);
+
 
 INSERT INTO POST (id, postName, memberID, postText, associationID, classification, privacy) VALUES (1, 'Breathtaking Condo', 3, 'The condo is located along a mountain cliff', 2, 'viewAndComment', 'systemWide');
 INSERT INTO POST (id, postName, memberID, postText, associationID, classification, privacy) VALUES (2, 'Moderate Condo', 4, 'This stylish residence is nestled on a large level block in a desirably tranquil cul-de-sac location. The house comes complete with two living rooms, a welcoming kitchen/dining area, two bathrooms, four bedrooms, a study, and a laundry, and retains the value of peaceful living while being conveniently close to shops, school and transport.', 2, 'viewOnly', 'systemWide');

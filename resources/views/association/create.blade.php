@@ -4,7 +4,7 @@
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
-            <h2>Create a new group</h2>
+            <h2>Create a new association</h2>
         </div>
         <div class="row justify-content-center">
             @if (!empty(session('message')))
@@ -15,16 +15,12 @@
         </div>
         <div class="row justify-content-center">
             <div class="card-deck d-flex flex-wrap justify-content-around">
-                <form method="POST" action="{{ route('group.createGroup')  }}">
+                <form method="POST" action="{{ route('association.createAction')  }}">
                     @csrf
                     <div class="form-group">
-                        <label for="groupName">Group Name</label>
-                        <input type="text" class="form-control" name="groupName" id="groupName" placeholder="Enter group name">
-                        <small id="groupNameHelp" class="form-text text-muted">You can change your group name later.</small>
-                    </div>
-                    <div class="form-group">
-                        <label for="groupInformation">Group Information</label>
-                        <textarea type="text" class="form-control" name="groupInformation" id="groupInformation" placeholder="A description of what your group is"></textarea>
+                        <label for="associationName">Association Name</label>
+                        <input type="text" class="form-control" name="associationName" id="associationName" placeholder="Enter association name" value="{{ old('associationName')  }}">
+                        <small id="associationNameHelp" class="form-text text-muted">You can change your association name later.</small>
                     </div>
                     <button type="submit" class="btn btn-success">Create</button>
                 </form>
