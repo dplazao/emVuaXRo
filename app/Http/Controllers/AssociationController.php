@@ -41,7 +41,7 @@ class AssociationController extends Controller
         // sysadmin can modify any
         if ($user->privilege === 'sysadmin') return true;
         // non-owners can't modify any
-        if ($user->privilege !== 'owner') return false;
+        if ($user->privilege !== 'admin') return false;
 
         $ass = DB::selectOne(
             'SELECT * FROM ASSOCIATION JOIN ASSOCIATIONOWNER A on ASSOCIATION.id = A.associationID WHERE id = ? AND memberID = ?'
@@ -94,16 +94,6 @@ class AssociationController extends Controller
                     WHERE A.id = ?
                     ORDER BY isOwner DESC, id
                 ', [$assID]);
-    }
-
-    private function getGroupMember(int $groupID, int $memberID)
-    {
-        return DB::selectOne('
-                SELECT M.id, M.name, internalEmailAddress, M.id = G.owner as isOwner, GM.accepted FROM MEMBER M
-                    JOIN GROUPMEMBER GM on M.id = GM.memberID
-                    JOIN MGROUP G on GM.groupID = G.id
-                    WHERE GM.groupID = ? AND M.id = ?
-                ', [$groupID, $memberID]);
     }
 
     // Routes/Actions
@@ -384,6 +374,32 @@ class AssociationController extends Controller
             return $this->redirectToListWithMessage('Your association was successfully deleted.', true);
         } catch (Exception $e) {
             return $this->redirectToViewWithMessage($associationID,'We failed to delete the association, try again later.');
+        }
+    }
+
+    public function removeMember($associationID, int $memberID) {
+        $association = $this->getAssociation($associationID);
+
+        if (empty($association)) {
+            return $this->redirectToListWithMessage('The association you are trying to delete a member from was not found.', false);
+        }
+
+        $memberAssociation = $this->getMemberAssociation($memberID);
+
+        if (empty($memberAssociation)) {
+            return $this->redirectToViewWithMessage($associationID, 'That member does not seem to exist.', false);
+        }
+
+        if ($associationID != $memberAssociation) {
+            return $this->redirectToViewWithMessage($associationID, 'That member is not part of your association.', false);
+        }
+
+        try {
+            $groupsTaken = DB::update('UPDATE MGROUP SET owner = ? WHERE owner = ?', [Auth::id(), $memberID]);
+            DB::delete('DELETE FROM MEMBER WHERE id = ? AND associationID = ?', [$memberID, $associationID]);
+            return $this->redirectToViewWithMessage($associationID, 'That member was successfully deleted.' . ($groupsTaken > 0 ? " You have taken ownership of $groupsTaken group(s) that they owned." : ''), true);
+        } catch (Exception $e) {
+            return $this->redirectToViewWithMessage($associationID,'We failed to delete that member, try again later.', false);
         }
     }
 }
