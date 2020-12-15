@@ -133,6 +133,19 @@ INSERT INTO MEMBER (id, associationID, email, name, address, privilege, status, 
 INSERT INTO MEMBER (id, associationID, email, name, address, privilege, status, internalEmailAddress, password) VALUES (19, 2, 'sduckeri@live.com', 'Sally', '3 Pierstorff Park', 'owner', 'active', 'Sally@2.condo', '$2y$10$s3lOybxwLra9dozw4nimZumQvd9NPYfUko3J8OhLV1QWsUfCLWEo6');
 INSERT INTO MEMBER (id, associationID, email, name, address, privilege, status, internalEmailAddress, password) VALUES (20, 2, 'jtilnej@google.it', 'Joline', '4368 Eggendart Terrace', 'owner', 'active', 'Joline@2.condo', '$2y$10$s3lOybxwLra9dozw4nimZumQvd9NPYfUko3J8OhLV1QWsUfCLWEo6');
 
+INSERT INTO MEMBERRELATIONSHIP (memberID, type, withMemberID) VALUES (2, 'friend', 3);
+INSERT INTO MEMBERRELATIONSHIP (memberID, type, withMemberID) VALUES (2, 'friend', 4);
+INSERT INTO MEMBERRELATIONSHIP (memberID, type, withMemberID) VALUES (2, 'friend', 5);
+INSERT INTO MEMBERRELATIONSHIP (memberID, type, withMemberID) VALUES (2, 'friend', 6);
+INSERT INTO MEMBERRELATIONSHIP (memberID, type, withMemberID) VALUES (3, 'friend', 6);
+INSERT INTO MEMBERRELATIONSHIP (memberID, type, withMemberID) VALUES (3, 'family', 7);
+INSERT INTO MEMBERRELATIONSHIP (memberID, type, withMemberID) VALUES (3, 'family', 8);
+INSERT INTO MEMBERRELATIONSHIP (memberID, type, withMemberID) VALUES (3, 'colleague', 9);
+INSERT INTO MEMBERRELATIONSHIP (memberID, type, withMemberID) VALUES (3, 'friend', 10);
+INSERT INTO MEMBERRELATIONSHIP (memberID, type, withMemberID) VALUES (4, 'friend', 11);
+INSERT INTO MEMBERRELATIONSHIP (memberID, type, withMemberID) VALUES (4, 'family', 12);
+INSERT INTO MEMBERRELATIONSHIP (memberID, type, withMemberID) VALUES (4, 'friend', 13);
+
 INSERT INTO ASSOCIATIONOWNER (associationID, memberID) VALUES (1, 1);
 INSERT INTO ASSOCIATIONOWNER (associationID, memberID) VALUES (2, 2);
 INSERT INTO ASSOCIATIONOWNER (associationID, memberID) VALUES (2, 9);
@@ -179,3 +192,9 @@ INSERT INTO GROUPMEMBER (memberID, groupID, accepted) VALUES (9, 2, TRUE);
 
 INSERT INTO MGROUP (id, name, owner, information) VALUES (3, 'Lonely Group', 18, 'the cooler group');
 INSERT INTO GROUPMEMBER (memberID, groupID, accepted) VALUES (18, 3, TRUE);
+
+
+SELECT M.name as firstName, M.id as firstID, MR.type, M2.name as secondName, M2.id as secondID FROM MEMBERRELATIONSHIP MR
+    JOIN MEMBER M on MR.memberID = M.id
+    JOIN MEMBER M2 on MR.withMemberID = M2.id
+    WHERE memberID = 3 OR withMemberID = 3;
