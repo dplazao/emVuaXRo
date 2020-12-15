@@ -1,4 +1,4 @@
-{{-- @author ruch --}}
+{{-- @author Ronick Uch 40093861 --}}
 @extends('layouts.app')
 
 @section('content')
@@ -18,11 +18,20 @@
                             <h1>That post does not seem to exist.</h1>
                             <p>Maybe it was deleted, you don't have access, or it never existed.</p>
                         @else
+                   			
                    			<h1>{{ $post->postName }}</h1>
                    			<p>{{ $post->postText }}</p>
                    			{{ $post->postPicture }}
-                   			<img src="{{ asset('storage/'.$post->postPicture) }}" alt="picture">
-                   			
+                   			<img src="{{ asset('/storage/'.$post->postPicture) }}" alt="(image)">
+                   			@if ($user['isOwner'])
+                   			<p>
+                   				<a href="{{ route('post.deleteView', ['postID' => $post->id])  }}">
+                                	<button type="button" class="btn btn-danger">
+                                    	Delete post
+                                   	</button>
+                               	</a>
+                           	</p>
+                           	@endif
                    		@endif
                    	</div>
                	</div>

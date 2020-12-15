@@ -53,7 +53,7 @@ Route::get('/group/removeMember/{groupID}/{memberID}', 'GroupController@removeMe
 
 /**
  * Post routes
- * @author ruch
+ * @author Ronick Uch 40093861
  */
 Route::get('/post/list', 'PostController@list')->name('post.list');
 
@@ -63,3 +63,6 @@ Route::get('/post/create', function () {
 Route::post('/post/createPost', 'PostController@create')->name('post.createPost')->middleware('auth');
 
 Route::get('/post/view/{postID}', 'PostController@view')->name('post.view');
+
+Route::get('/post/delete/{postID}', 'PostController@deleteView')->name('post.deleteView')->middleware('auth');
+Route::post('/post/delete/{postID}', 'PostController@deleteAction')->name('post.deleteAction')->middleware('auth');

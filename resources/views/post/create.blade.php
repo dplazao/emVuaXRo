@@ -1,4 +1,4 @@
-{{-- @author ruch --}}
+{{-- @author Ronick Uch 40093861 --}}
 @extends('layouts.app')
 
 @section('content')
@@ -23,7 +23,8 @@
                     </div>
                     <div class="form-group">
                     	<label for="postText">Post Text</label>
-                        <input type="text" class="form-control" name="postText" id="postText" placeholder="Enter something about your posting">
+                        <textarea rows="4" cols="5" class="form-control" name="postText" id="postText" placeholder="Enter something about your posting"></textarea>
+                        
                     </div>
                     <div class="form-group">
                         <label for="image">Post Picture</label>

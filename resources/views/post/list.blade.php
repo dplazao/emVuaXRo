@@ -1,4 +1,4 @@
-{{-- @author ruch --}}
+{{-- @author Ronick Uch 40093861 --}}
 @extends('layouts.app')
 
 @section('content')
@@ -8,7 +8,6 @@
                 {{ session('message') }}
             </div>
         @endif
-        <h1>Postings</h1>
         @auth
             <div class="row justify-content-center mb-3">
                 <a href="{{ route('post.create') }}">

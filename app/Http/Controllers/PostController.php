@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Comment;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -9,9 +10,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 /**
- * Handles create/viewing/comment on posts
+ * Handles create/view/delete on posts
  * @package App\Http\Controllers
- * @author ruch
+ * @author Ronick Uch 40093861
  */
 class PostController extends Controller
 {
@@ -53,6 +54,13 @@ class PostController extends Controller
         ->with('success', $success);
     }
     
+    private function redirectToListWithMessage(string $message, bool $success = null): RedirectResponse {
+        return redirect()
+        ->route('post.list')
+        ->with('message', $message)
+        ->with('success', $success);
+    }
+    
     public function list()
     {
         $posts = $this->getAllPost();
@@ -62,15 +70,19 @@ class PostController extends Controller
     public function view(int $postID)
     {
         $post = $this->getPost($postID);
+        $userID = Auth::id();
+        $user = [
+            'isOwner' => $userID === $post->memberID
+        ];
         
         return view('post.view', [
-            'post' => $post
+            'post' => $post,
+            'user' => $user
         ]);
     }
     
     public function create(Request $request): RedirectResponse
     {
-
         $memberID = Auth::id();
         $postName = $request->get('postName');
         $postText = $request->get('postText');
@@ -81,6 +93,7 @@ class PostController extends Controller
         if ($request->hasFile('image')){
             $path = $request->file('image')->storePublicly('images');
         }
+        
         if (empty($memberID)) {
             return $this->redirectToCreateWithMessage('You are not logged in.', false);
         } else if (empty($postName)) {
@@ -118,6 +131,52 @@ class PostController extends Controller
             DB::rollBack();
             return $this->redirectToCreateWithMessage('There was an error trying to create your post, try again later.', false);
         }
+    }
+    
+    public function deleteView(int $postID)
+    {
+        $post = $this->getPost($postID);
+        
+        if (empty($post)) {
+            return $this->redirectToListWithMessage('The post you are trying to delete was not found.', false);
+        } else if (Auth::id() !== $post->memberID) {
+            return $this->redirectToViewWithMessage($postID, 'You can only delete posts you own.', false);
+        }
+        
+        return view('post.delete', [
+            'post' => $post,
+        ]);
+    }
+    
+    public function deleteAction(int $postID): RedirectResponse {
+        $post = $this->getPost($postID);
+        
+        if (empty($post)) {
+            return $this->redirectToListWithMessage('The post you are trying to delete was not found.', false);
+        } else if (Auth::id() !== $post->memberID) {
+            return $this->redirectToViewWithMessage($postID, 'You can only delete posts you own.', false);
+        }
+        
+        try {
+            DB::delete('DELETE FROM POST WHERE id = ?', [$postID]);
+            return $this->redirectToListWithMessage('Your post was successfully deleted.', true);
+        } catch (Exception $e) {
+            return $this->redirectToViewWithMessage($postID,'We failed to delete the post, try again later.');
+        }
+    }
+    
+    public function storeComment(Request $request)
+    {
+        $request->validate([
+            'body'=>'required',
+        ]);
+        
+        $input = $request->all();
+        $input['userID'] = auth()->user()->id;
+        
+        Comment::create($input);
+        
+        return back();
     }
     
 }
