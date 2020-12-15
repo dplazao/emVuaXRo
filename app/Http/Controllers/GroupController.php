@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 /**
  * Handles create/edit/view/join groups
  * @package App\Http\Controllers
- * @author dplazao
+ * @author dplazao 40132793
  */
 class GroupController extends Controller
 {
@@ -118,7 +118,7 @@ class GroupController extends Controller
             ->with('success', $success);
     }
 
-    private function redirectToViewWithMessage(int $groupID, string $message, bool $success = null): RedirectResponse {
+    private function redirectToViewWithMessage($groupID, string $message, bool $success = null): RedirectResponse {
         return redirect()
             ->action([GroupController::class, 'view'], ['groupID' => $groupID])
             ->with('message', $message)

@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 
 class AuthServiceProvider extends ServiceProvider
@@ -25,6 +27,14 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        /** Gates @author dplazao 40132793 */
+        Gate::define('sysadmin', function ($user) { return $user->privilege === 'sysadmin'; });
+
+        Gate::define('modify-association', 'App\Http\Controllers\AssociationController@canModifyAssociation');
+        Gate::define('view-association', 'App\Http\Controllers\AssociationController@canViewAssociation');
+
+        Gate::define('modify-building', 'App\Http\Controllers\BuildingController@canModifyBuilding');
+        Gate::define('view-building', 'App\Http\Controllers\BuildingController@canViewBuilding');
+        Gate::define('transfer-condo', 'App\Http\Controllers\BuildingController@canTransferCondo');
     }
 }

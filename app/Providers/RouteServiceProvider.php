@@ -31,7 +31,9 @@ class RouteServiceProvider extends ServiceProvider
     public function boot()
     {
         parent::boot();
+        /** group/association/member patterns @author dplazao 40132793 */
         Route::pattern('groupID', '[0-9]+');
+        Route::pattern('associationID', '([0-9]+|@me)');
         Route::pattern('memberID', '[0-9]+');
     }
 
