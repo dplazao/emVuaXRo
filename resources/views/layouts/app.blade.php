@@ -58,6 +58,10 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('users.view') }}">{{ 'Users' }}</a>
                     </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('post.list') }}">{{ 'Posts' }}</a>
+                    </li>
 
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('relationship.list') }}">{{ 'Relationships' }}</a>

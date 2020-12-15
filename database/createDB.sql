@@ -82,11 +82,16 @@ CREATE TABLE GROUPMEMBER (
 
 CREATE TABLE POST (
     id INT PRIMARY KEY AUTO_INCREMENT,
+    postName VARCHAR(255) NOT NULL,
+    memberID INT,
+    postText TEXT,
+    postPicture VARCHAR(255),
     associationID INT,
     # viewOnly, viewAndComment, viewAndAddLink
     classification VARCHAR(32) NOT NULL,
-    # systemWide, condoOwners, public, private, group, public
-    privacy VARCHAR(32) NOT NULL
+    # systemWide, condoOwners, public, private, group
+    privacy VARCHAR(32) NOT NULL,
+    FOREIGN KEY (memberID) REFERENCES MEMBER(id) ON DELETE CASCADE
 );
 
 CREATE TABLE POSTCOMMENT (
@@ -194,7 +199,7 @@ INSERT INTO MGROUP (id, name, owner, information) VALUES (3, 'Lonely Group', 18,
 INSERT INTO GROUPMEMBER (memberID, groupID, accepted) VALUES (18, 3, TRUE);
 
 
-SELECT M.name as firstName, M.id as firstID, MR.type, M2.name as secondName, M2.id as secondID FROM MEMBERRELATIONSHIP MR
-    JOIN MEMBER M on MR.memberID = M.id
-    JOIN MEMBER M2 on MR.withMemberID = M2.id
-    WHERE memberID = 3 OR withMemberID = 3;
+INSERT INTO POST (id, postName, memberID, postText, associationID, classification, privacy) VALUES (1, 'Breathtaking Condo', 3, 'The condo is located along a mountain cliff', 2, 'viewAndComment', 'systemWide');
+INSERT INTO POST (id, postName, memberID, postText, associationID, classification, privacy) VALUES (2, 'Moderate Condo', 4, 'This stylish residence is nestled on a large level block in a desirably tranquil cul-de-sac location. The house comes complete with two living rooms, a welcoming kitchen/dining area, two bathrooms, four bedrooms, a study, and a laundry, and retains the value of peaceful living while being conveniently close to shops, school and transport.', 2, 'viewOnly', 'systemWide');
+INSERT INTO POST (id, postName, memberID, postText, associationID, classification, privacy) VALUES (3, 'Downtown Condo', 3, 'Located in the heart of the city', 2, 'viewAndComment', 'systemWide');
+INSERT INTO POST (id, postName, memberID, postText, associationID, classification, privacy) VALUES (4, 'Border Downtown Condo', 2, "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.", 2, 'viewAndComment', 'public')
