@@ -1,11 +1,14 @@
-DROP TABLE IF EXISTS GROUPMEMBER CASCADE;
-DROP TABLE IF EXISTS MEMBERRELATIONSHIP CASCADE;
-DROP TABLE IF EXISTS POSTCOMMENT CASCADE;
-DROP TABLE IF EXISTS POSTPRIVACY CASCADE;
-DROP TABLE IF EXISTS MGROUP CASCADE;
-DROP TABLE IF EXISTS MEMBER CASCADE;
-DROP TABLE IF EXISTS ASSOCIATION CASCADE;
-DROP TABLE IF EXISTS POST CASCADE;
+drop table if exists CONDO cascade;
+drop table if exists BUILDING cascade;
+drop table if exists GROUPMEMBER cascade;
+drop table if exists MEMBERRELATIONSHIP cascade;
+drop table if exists POSTCOMMENT cascade;
+drop table if exists POSTPRIVACY cascade;
+drop table if exists MGROUP cascade;
+drop table if exists ASSOCIATIONOWNER cascade;
+drop table if exists MEMBER cascade;
+drop table if exists ASSOCIATION cascade;
+drop table if exists POST cascade;
 
 CREATE TABLE ASSOCIATION (
     id INT PRIMARY KEY AUTO_INCREMENT,
@@ -32,6 +35,24 @@ CREATE TABLE ASSOCIATIONOWNER (
     memberID INT NOT NULL,
     FOREIGN KEY (associationID) REFERENCES ASSOCIATION(id) ON DELETE CASCADE,
     FOREIGN KEY (memberID) REFERENCES MEMBER(id) ON DELETE CASCADE
+);
+
+CREATE TABLE BUILDING (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    associationID INT NOT NULL,
+    spaceFee FLOAT NOT NULL DEFAULT 1,
+    FOREIGN KEY (associationID) REFERENCES ASSOCIATION(id) ON DELETE CASCADE
+);
+
+CREATE TABLE CONDO (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    buildingID INT NOT NULL,
+    ownerID INT,
+    parkingSpaces INT NOT NULL DEFAULT 0,
+    storageSpace INT NOT NULL DEFAULT 0,
+    FOREIGN KEY (buildingID) REFERENCES BUILDING(id) ON DELETE CASCADE,
+    FOREIGN KEY (ownerID) REFERENCES MEMBER(id) ON DELETE SET NULL
 );
 
 CREATE TABLE MEMBERRELATIONSHIP (
@@ -91,7 +112,7 @@ CREATE TABLE POSTPRIVACY (
 INSERT INTO ASSOCIATION (id, name) VALUES (1, 'SYSTEM');
 INSERT INTO ASSOCIATION (id, name) VALUES (2, 'First association');
 
-INSERT INTO MEMBER (id, associationID, email, name, address, privilege, status, internalEmailAddress, password) VALUES (1, 1, 'admin@concordia.ca', 'Admin User', '75685 Macpherson Parkway', 'sysadmin', 'active', 'admin@db.condo', '$2y$10$s3lOybxwLra9dozw4nimZumQvd9NPYfUko3J8OhLV1QWsUfCLWEo6');
+INSERT INTO MEMBER (id, associationID, email, name, address, privilege, status, internalEmailAddress, password) VALUES (1, 1, 'admin', 'Admin User', '75685 Macpherson Parkway', 'sysadmin', 'active', 'admin@db.condo', '$2y$10$gjyY35KYVbtO9vwn33VQjuWNOfgm2r.uiLXFOcuhLk/l.MRjdgtH.');
 INSERT INTO MEMBER (id, associationID, email, name, address, privilege, status, internalEmailAddress, password) VALUES (2, 2, 'admin@condo2.com', 'Cchaddie', '8 Russell Street', 'admin', 'active', 'admin@2.condo', '$2y$10$s3lOybxwLra9dozw4nimZumQvd9NPYfUko3J8OhLV1QWsUfCLWEo6');
 INSERT INTO MEMBER (id, associationID, email, name, address, privilege, status, internalEmailAddress, password) VALUES (3, 2, 'diego@plazao.ca', 'Diego', '442 Forest Drive', 'owner', 'active', 'Diego@2.condo', '$2y$10$s3lOybxwLra9dozw4nimZumQvd9NPYfUko3J8OhLV1QWsUfCLWEo6');
 INSERT INTO MEMBER (id, associationID, email, name, address, privilege, status, internalEmailAddress, password) VALUES (4, 2, 'diego2@plazao.ca', 'Diego2', '3464 Veith Road', 'owner', 'active', 'Diego2@2.condo', '$2y$10$s3lOybxwLra9dozw4nimZumQvd9NPYfUko3J8OhLV1QWsUfCLWEo6');
@@ -99,7 +120,7 @@ INSERT INTO MEMBER (id, associationID, email, name, address, privilege, status, 
 INSERT INTO MEMBER (id, associationID, email, name, address, privilege, status, internalEmailAddress, password) VALUES (6, 2, 'ltustin5@hud.gov', 'Lenee', '640 Lakeland Hill', 'owner', 'active', 'Lenee@2.condo', '$2y$10$s3lOybxwLra9dozw4nimZumQvd9NPYfUko3J8OhLV1QWsUfCLWEo6');
 INSERT INTO MEMBER (id, associationID, email, name, address, privilege, status, internalEmailAddress, password) VALUES (7, 2, 'kcratchley6@list-manage.com', 'Kimberlyn', '38184 Hermina Avenue', 'owner', 'active', 'Kimberlyn@2.condo', '$2y$10$s3lOybxwLra9dozw4nimZumQvd9NPYfUko3J8OhLV1QWsUfCLWEo6');
 INSERT INTO MEMBER (id, associationID, email, name, address, privilege, status, internalEmailAddress, password) VALUES (8, 2, 'bboles7@va.gov', 'Barbette', '70965 Sugar Court', 'owner', 'active', 'Barbette@2.condo', '$2y$10$s3lOybxwLra9dozw4nimZumQvd9NPYfUko3J8OhLV1QWsUfCLWEo6');
-INSERT INTO MEMBER (id, associationID, email, name, address, privilege, status, internalEmailAddress, password) VALUES (9, 2, 'gforcer8@behance.net', 'Glynnis', '5834 Fieldstone Avenue', 'owner', 'active', 'Glynnis@2.condo', '$2y$10$s3lOybxwLra9dozw4nimZumQvd9NPYfUko3J8OhLV1QWsUfCLWEo6');
+INSERT INTO MEMBER (id, associationID, email, name, address, privilege, status, internalEmailAddress, password) VALUES (9, 2, 'gforcer8@behance.net', 'Glynnis', '5834 Fieldstone Avenue', 'admin', 'active', 'Glynnis@2.condo', '$2y$10$s3lOybxwLra9dozw4nimZumQvd9NPYfUko3J8OhLV1QWsUfCLWEo6');
 INSERT INTO MEMBER (id, associationID, email, name, address, privilege, status, internalEmailAddress, password) VALUES (10, 2, 'bbuick9@whitehouse.gov', 'Belva', '891 Del Sol Way', 'owner', 'active', 'Belva@2.condo', '$2y$10$s3lOybxwLra9dozw4nimZumQvd9NPYfUko3J8OhLV1QWsUfCLWEo6');
 INSERT INTO MEMBER (id, associationID, email, name, address, privilege, status, internalEmailAddress, password) VALUES (11, 2, 'wmarcoa@gov.uk', 'Wyndham', '7 Esch Hill', 'owner', 'active', 'Wyndham@2.condo', '$2y$10$s3lOybxwLra9dozw4nimZumQvd9NPYfUko3J8OhLV1QWsUfCLWEo6');
 INSERT INTO MEMBER (id, associationID, email, name, address, privilege, status, internalEmailAddress, password) VALUES (12, 2, 'elepiscopiob@nature.com', 'Ely', '98 Ridgeview Way', 'owner', 'active', 'Ely@2.condo', '$2y$10$s3lOybxwLra9dozw4nimZumQvd9NPYfUko3J8OhLV1QWsUfCLWEo6');
@@ -114,6 +135,31 @@ INSERT INTO MEMBER (id, associationID, email, name, address, privilege, status, 
 
 INSERT INTO ASSOCIATIONOWNER (associationID, memberID) VALUES (1, 1);
 INSERT INTO ASSOCIATIONOWNER (associationID, memberID) VALUES (2, 2);
+INSERT INTO ASSOCIATIONOWNER (associationID, memberID) VALUES (2, 9);
+
+INSERT INTO BUILDING (id, name, associationID, spaceFee) VALUES (1, 'Red Building', 2, 10);
+
+INSERT INTO CONDO (buildingID, ownerID, parkingSpaces, storageSpace) VALUES (1, 2, 1, 10);
+INSERT INTO CONDO (buildingID, ownerID, parkingSpaces, storageSpace) VALUES (1, 3, 1, 10);
+INSERT INTO CONDO (buildingID, ownerID, parkingSpaces, storageSpace) VALUES (1, 4, 2, 20);
+INSERT INTO CONDO (buildingID, ownerID, parkingSpaces, storageSpace) VALUES (1, 5, 1, 10);
+INSERT INTO CONDO (buildingID, ownerID, parkingSpaces, storageSpace) VALUES (1, 6, 3, 50);
+INSERT INTO CONDO (buildingID, ownerID, parkingSpaces, storageSpace) VALUES (1, 7, 1, 10);
+INSERT INTO CONDO (buildingID, ownerID, parkingSpaces, storageSpace) VALUES (1, 8, 1, 30);
+INSERT INTO CONDO (buildingID, ownerID, parkingSpaces, storageSpace) VALUES (1, 9, 2, 10);
+INSERT INTO CONDO (buildingID, ownerID, parkingSpaces, storageSpace) VALUES (1, 10, 1, 5);
+
+INSERT INTO BUILDING (id, name, associationID, spaceFee) VALUES (2, 'Blue Building', 2, 15);
+
+INSERT INTO CONDO (buildingID, ownerID, parkingSpaces, storageSpace) VALUES (2, 11, 2, 5);
+INSERT INTO CONDO (buildingID, ownerID, parkingSpaces, storageSpace) VALUES (2, 12, 1, 10);
+INSERT INTO CONDO (buildingID, ownerID, parkingSpaces, storageSpace) VALUES (2, 13, 3, 15);
+INSERT INTO CONDO (buildingID, ownerID, parkingSpaces, storageSpace) VALUES (2, 14, 1, 10);
+INSERT INTO CONDO (buildingID, ownerID, parkingSpaces, storageSpace) VALUES (2, 15, 1, 5);
+INSERT INTO CONDO (buildingID, ownerID, parkingSpaces, storageSpace) VALUES (2, 16, 3, 10);
+INSERT INTO CONDO (buildingID, ownerID, parkingSpaces, storageSpace) VALUES (2, 17, 1, 30);
+INSERT INTO CONDO (buildingID, ownerID, parkingSpaces, storageSpace) VALUES (2, 18, 2, 10);
+INSERT INTO CONDO (buildingID, ownerID, parkingSpaces, storageSpace) VALUES (2, 19, 1, 15);
 
 INSERT INTO MGROUP (id, name, owner, information) VALUES (1, 'First group', 3, 'the cool group');
 INSERT INTO GROUPMEMBER (memberID, groupID, accepted) VALUES (3, 1, TRUE);
@@ -135,13 +181,18 @@ INSERT INTO MGROUP (id, name, owner, information) VALUES (3, 'Lonely Group', 18,
 INSERT INTO GROUPMEMBER (memberID, groupID, accepted) VALUES (18, 3, TRUE);
 
 
-
-
-
-
-
-
-
+SELECT B.id, name, associationID, spaceFee, coalesce(counts.condoCount, 0) as condoCount FROM BUILDING B
+    LEFT JOIN (
+        SELECT B2.id as count_id, COUNT(*) as condoCount FROM BUILDING B2
+        JOIN CONDO C on B2.id = C.buildingID
+        GROUP BY B2.id
+    ) as counts
+    ON B.id = count_id
+    WHERE associationID = (
+        SELECT A.id FROM ASSOCIATION A
+            JOIN MEMBER M on A.id = M.associationID
+            WHERE M.id = ?
+    );
 
 
 

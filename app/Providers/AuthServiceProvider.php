@@ -32,5 +32,9 @@ class AuthServiceProvider extends ServiceProvider
 
         Gate::define('modify-association', 'App\Http\Controllers\AssociationController@canModifyAssociation');
         Gate::define('view-association', 'App\Http\Controllers\AssociationController@canViewAssociation');
+
+        Gate::define('modify-building', 'App\Http\Controllers\BuildingController@canModifyBuilding');
+        Gate::define('view-building', 'App\Http\Controllers\BuildingController@canViewBuilding');
+        Gate::define('transfer-condo', 'App\Http\Controllers\BuildingController@canTransferCondo');
     }
 }
