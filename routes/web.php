@@ -25,6 +25,6 @@ Route::get('/users', function () {
     return view('users.view');
 })->name('users.view')->middleware('auth');
 Route::get('/users/list', 'UserController@listAllUsers')->name('users.list')->middleware('auth');
-Route::get('/users/createUser', 'UserController@createUser')->name('users.createUser')->middleware('auth');
-Route::get('/users/deleteUser', 'UserController@deleteUser')->name('users.deleteUser')->middleware('auth');
-Route::get('/users/editUser', 'UserController@editUser')->name('users.editUser')->middleware('auth');
+Route::post('/users/createUser', 'UserController@createUser')->name('users.createUser')->middleware('auth')->middleware('can:sysadmin');
+Route::post('/users/deleteUser', 'UserController@deleteUser')->name('users.deleteUser')->middleware('auth')->middleware('can:sysadmin');
+Route::post('/users/editUser', 'UserController@editUser')->name('users.editUser')->middleware('auth');

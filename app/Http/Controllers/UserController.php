@@ -84,6 +84,9 @@ FROM MEMBER;');
     public function editUser(Request $request) {
         $memberID = Auth::id();
         $id = $request->get('ID');
+
+        if (Auth::user()->privilege !== 'sysadmin' && $memberID != $id) return abort(403);
+
         $userName = $request->get('userName');
         $password = $request->get('password');
         $email = $request->get('email');

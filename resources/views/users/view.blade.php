@@ -22,71 +22,96 @@
                         </a>
                         <br>
                         <br>
-                        <button type="button" class="collapsible btn btn-outline-success">Create a new User</button>
-                        <div class="content" style="display: none">
-                            <form method="GET" action="{{ route('users.createUser')  }}">
-                                @csrf
-                                <div class="form-group">
-                                    <label for="userName">User Name</label>
-                                    <input type="text" class="form-control" name="userName" id="userName"
-                                           placeholder="Enter user name">
-                                    <input type="text" class="form-control" name="password" id="password"
-                                           placeholder="Enter password">
-                                    <input type="text" class="form-control" name="address" id="address"
-                                           placeholder="Enter your address">
-                                    <input type="text" class="form-control" name="email" id="email"
-                                           placeholder="Enter email">
-                                    <small id="userNameHelp" class="form-text text-muted">You can change your user name
-                                        later.</small>
-                                </div>
-                                <a href="{{ route('users.createUser')}}">
-                                    <button type="submit" class="btn btn-success">Create</button>
-                                </a>
-                            </form>
-                        </div>
-                        <br>
-                        <br>
-                        <button type="button" class="collapsible btn btn-warning">Edit a User</button>
-                        <div class="content" style="display: none">
-                            <form method="GET" action="{{ route('users.editUser')  }}">
-                                @csrf
-                                <div class="form-group">
-                                    <label for="userName">What is the ID of the user you want to edit?</label>
-                                    <input type="text" class="form-control" name="ID" id="ID" placeholder="Enter ID">
-                                    <input type="text" class="form-control" name="userName" id="userName"
-                                           placeholder="Enter Name you want to change">
-                                    <input type="text" class="form-control" name="email" id="email"
-                                           placeholder="Enter Email you want to change">
-                                    <input type="text" class="form-control" name="password" id="password"
-                                           placeholder="Enter password you want to change">
-                                    <input type="text" class="form-control" name="address" id="address"
-                                           placeholder="Enter Address you want to change">
-                                </div>
-                                <a href="{{ route('users.editUser')}}">
-                                    <button type="submit" class="btn btn-success">Edit</button>
-                                </a>
-                            </form>
-                        </div>
-                        </br>
-                        </br>
-                        <button type="button" class="collapsible btn btn-outline-danger">Delete a User</button>
-                        <div class="content" style="display: none">
-                            <form method="GET" action="{{ route('users.deleteUser')  }}">
-                                @csrf
-                                <div class="form-group">
-                                    <label for="userName">User Name</label>
-                                    <input type="text" class="form-control" name="userName" id="userName"
-                                           placeholder="Enter user name">
-                                    <input type="text" class="form-control" name="ID" id="ID"
-                                           placeholder="Enter the ID of the user you want to delete">
-                                </div>
-                                <a href="{{ route('users.deleteUser')}}">
-                                    <button type="submit" class="btn btn-success">Delete</button>
-                                </a>
-                            </form>
-                        </div>
-                        </br>
-                        </br>
+                        @if (\Illuminate\Support\Facades\Auth::user()->privilege === 'sysadmin')
+                            <button type="button" class="collapsible btn btn-outline-success">Create a new User</button>
+                            <div class="content" style="display: none">
+                                <form method="POST" action="{{ route('users.createUser')  }}">
+                                    @csrf
+                                    <div class="form-group">
+                                        <label for="userName">User Name</label>
+                                        <input type="text" class="form-control" name="userName" id="userName"
+                                               placeholder="Enter user name">
+                                        <input type="text" class="form-control" name="password" id="password"
+                                               placeholder="Enter password">
+                                        <input type="text" class="form-control" name="address" id="address"
+                                               placeholder="Enter your address">
+                                        <input type="text" class="form-control" name="email" id="email"
+                                               placeholder="Enter email">
+                                        <small id="userNameHelp" class="form-text text-muted">You can change your user name
+                                            later.</small>
+                                    </div>
+                                    <a href="{{ route('users.createUser')}}">
+                                        <button type="submit" class="btn btn-success">Create</button>
+                                    </a>
+                                </form>
+                            </div>
+                            <br>
+                            <br>
+                            <button type="button" class="collapsible btn btn-warning">Edit a User</button>
+                            <div class="content" style="display: none">
+                                <form method="POST" action="{{ route('users.editUser')  }}">
+                                    @csrf
+                                    <div class="form-group">
+                                        <label for="userName">What is the ID of the user you want to edit?</label>
+                                        <input type="text" class="form-control" name="ID" id="ID" placeholder="Enter ID">
+                                        <input type="text" class="form-control" name="userName" id="userName"
+                                               placeholder="Enter Name you want to change">
+                                        <input type="text" class="form-control" name="email" id="email"
+                                               placeholder="Enter Email you want to change">
+                                        <input type="text" class="form-control" name="password" id="password"
+                                               placeholder="Enter password you want to change">
+                                        <input type="text" class="form-control" name="address" id="address"
+                                               placeholder="Enter Address you want to change">
+                                    </div>
+                                    <a href="{{ route('users.editUser')}}">
+                                        <button type="submit" class="btn btn-success">Edit</button>
+                                    </a>
+                                </form>
+                            </div>
+                            <br>
+                            <br>
+                            <button type="button" class="collapsible btn btn-outline-danger">Delete a User</button>
+                            <div class="content" style="display: none">
+                                <form method="POST" action="{{ route('users.deleteUser')  }}">
+                                    @csrf
+                                    <div class="form-group">
+                                        <label for="userName">User Name</label>
+                                        <input type="text" class="form-control" name="userName" id="userName"
+                                               placeholder="Enter user name">
+                                        <input type="text" class="form-control" name="ID" id="ID"
+                                               placeholder="Enter the ID of the user you want to delete">
+                                    </div>
+                                    <a href="{{ route('users.deleteUser')}}">
+                                        <button type="submit" class="btn btn-success">Delete</button>
+                                    </a>
+                                </form>
+                            </div>
+                            <br>
+                            <br>
+                        @else
+                            <button type="button" class="collapsible btn btn-warning">Edit your Profile</button>
+                            <div class="content" style="display: none">
+                                <form method="POST" action="{{ route('users.editUser')  }}">
+                                    @csrf
+                                    <div class="form-group">
+                                        <input type="hidden" class="form-control" name="ID" id="ID" placeholder="Enter ID" value="{{ \Illuminate\Support\Facades\Auth::id()  }}">
+                                        <input type="text" class="form-control" name="userName" id="userName"
+                                               placeholder="Enter Name you want to change" value="{{ \Illuminate\Support\Facades\Auth::user()->name  }}">
+                                        <input type="text" class="form-control" name="email" id="email"
+                                               placeholder="Enter Email you want to change" value="{{ \Illuminate\Support\Facades\Auth::user()->email  }}">
+                                        <input type="text" class="form-control" name="password" id="password"
+                                               placeholder="Enter password you want to change">
+                                        <input type="text" class="form-control" name="address" id="address"
+                                               placeholder="Enter Address you want to change" value="{{ \Illuminate\Support\Facades\Auth::user()->address  }}">
+                                    </div>
+                                    <a href="{{ route('users.editUser')}}">
+                                        <button type="submit" class="btn btn-success">Edit</button>
+                                    </a>
+                                </form>
+                            </div>
+                            <br>
+                            <br>
+                        @endif
                     </div>
                 </div>
             </div>
